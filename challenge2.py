@@ -18,11 +18,12 @@ import mysql.connector
 import ConfigParser
 from email.MIMEText import MIMEText
 import datetime
+config_file="config.ini"
 def variables():
     #Cargando el archivo config.ini
     try:
         config = ConfigParser.ConfigParser()
-        config.read("config.ini")
+        config.read(config_file)
     except Exception, e:
         print e
         print "CRITICAL No pude leer el config.ini revisar que exista"
@@ -46,6 +47,7 @@ def charge_variables(variables, seccion, config):
             sys.exit(1)
 
 def conectar_ldap():
+    """ funcion arma conneccion hacia el ldap retorna esa conexion""" 
     try:
         con = ldap.initialize(ldap_host)
         con.simple_bind_s(ldap_user_admin, ldap_password_admin)
@@ -57,11 +59,13 @@ def conectar_ldap():
     return con
 
 def generar_pass():
+    """ Funcion Genera pass aleatoria """
     password = ""
     password = password.join([choice(password_valores) for i in range(password_logintud)])
     return password
 
 def search_uid_hig(con):
+    """ Busco el id mas alto y le sumo uno para el nuevo id """ 
     res = con.search_s(ldap_base, ldap.SCOPE_SUBTREE, 'objectclass=posixaccount', ['uidNumber'])
     uidNum = 0
     for a in res:
@@ -129,6 +133,7 @@ def conectar_gmail():
     return GMAIL
 
 def enviar_email(email,login,password,full_name):
+    """ Funcion envia email """  
     message_text = "Hola buen Dia " + full_name + " se dio de alta tu usuario : " + login + " con las password : " + password + " Cuando ingreses por primera vez se te va a pedir cambiar tu password"
     GMAIL = conectar_gmail()
     message = MIMEText(message_text)
@@ -145,6 +150,7 @@ def enviar_email(email,login,password,full_name):
         sys.exit(1)
 
 def guardar_mysql(mysql_fullname, mysql_email, mysql_username, mysql_accion, mysql_date):
+    """ Funcion Guarda en la base """ 
     try:
         mymysql = mysql.connector.connect(host=mysql_host,user=mysql_user,passwd=mysql_pass,port=mysql_port,database=mysql_db)
     except Exception, e:
