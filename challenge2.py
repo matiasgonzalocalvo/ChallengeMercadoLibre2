@@ -179,7 +179,11 @@ def main():
     con = conectar_ldap()
     #Leo el archivo csv y lo recorro
     with open(file_csv) as csvfile:
-        readCSV = csv.reader(csvfile, delimiter=',')
+        try:
+            readCSV = csv.reader(csvfile, delimiter=',')
+        except Exception, e:
+            print e
+            print "CRITICAL Hubo un error al leer el csv. revisar el archivo %s" % csvfile
         for row in readCSV:
             #extraigo nombre apellido y email 
             user=""
