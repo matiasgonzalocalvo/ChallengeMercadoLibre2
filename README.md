@@ -123,7 +123,7 @@ Ver los logs
 
 ```
 
-## FROM Debian
+## Test script from Debian
 ### Sistema Operativo
 Debian 9 netinstall
 
