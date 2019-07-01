@@ -15,12 +15,6 @@ Esto debe ser desarrollado en Python, Ruby o Java.
 
 
 
-Generar las credenciales (client_secret.json) para utilizar las apis de gmail ver siguiente enlace
-
-	https://developers.google.com/gmail/api/quickstart/python
-
-acceso a internet
-
 ## CONFIGURACION
 
 En el archivo config.ini esta toda la configuracion
@@ -75,12 +69,13 @@ Si no existe el archivo storage_json. va a requerir darle permisos en forma manu
 Mas info https://developers.google.com/gmail/api/quickstart/python
 
 
-## From Docker 
+## Test script from Docker 
 
 ### pre requisitos
 
   Verificar el archivo config.ini ahi vive la configuracion. 
   el archivo storage.json tiene que estar configurado.
+  Mariadb y el openldap va a escuchar en la ip del host cambiar la configuracion por la ip
 
 ### Build docker
 
@@ -90,13 +85,13 @@ Mas info https://developers.google.com/gmail/api/quickstart/python
   docker build -t challenge2 -f Dockerfile .
 ```
 ### Exec Openldap
+  setear las variables segun corresponda mas info en <https://github.com/osixia/docker-openldap>
 ```bash
   docker run --name challenge2-openldap -e LDAP_ORGANISATION="mercadolibre" -e LDAP_DOMAIN="mercadolibre.com.ar" -e LDAP_ADMIN_PASSWORD="mercadolibre" -p 389:389 -p 636:636  -d challenge2-openldap:latest --copy-service
 ```
 
 ### Exec mariadb
   
-  El mariadb va a escuchar en la ip del host cambiar la configuracion por la ip
   para ver todas las variables del mariadb revisar la configuracion <https://hub.docker.com/_/mariadb>
 
 ```bash
@@ -129,10 +124,10 @@ Ver los logs
 ```
 
 ## FROM Debian
-# Sistema Operativo
+### Sistema Operativo
 Debian 9 netinstall
 
-#Base de datos
+###Base de datos
 Tener instalado mariadb server
 ```bash
 	$ sudo apt install mariadb-server
@@ -186,7 +181,7 @@ Generar ou
 	$ ldapadd -x -D cn=admin,dc=mercadolibre,dc=com,dc=ar -W -f u_org.ldif
 ``` 
 
-# Python Config
+### Python Config
 
 Verificar tener instalado cliente pip
 
@@ -201,13 +196,7 @@ Instalar todas las dependencias
 $ pip install -r requirements.txt 
 ```
 
-Generar las credenciales (client_secret.json) para utilizar las apis de gmail ver siguiente enlace
-
-	https://developers.google.com/gmail/api/quickstart/python
-
-acceso a internet
-
-## EJECUCION
+### EJECUCION
 
 ```bash
   $ python challenge3.py
