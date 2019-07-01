@@ -1,0 +1,4 @@
+dn: ou=People,dc=mercadolibre,dc=com,dc=ar
+objectClass: top
+objectClass: organizationalUnit
+ou: People

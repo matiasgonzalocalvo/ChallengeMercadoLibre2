@@ -1,0 +1,5 @@
+dn: ou=Policies,dc=mercadolibre,dc=com,dc=ar
+objectClass: top
+objectClass: organizationalUnit
+ou: Policies
+description: Password policy
